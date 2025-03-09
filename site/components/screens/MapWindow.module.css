@@ -15,20 +15,24 @@
   display: flex;
   border-bottom: 1px solid #00000020;
   padding: 8px;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: row; 
+  justify-content: space-between; 
+  align-items: center; 
   cursor: grab;
   background-color: #f6e7ba;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  margin: 0px;
-  padding: 0px;
 }
 
 .header-buttons {
   display: flex;
   flex-direction: row;
   gap: 8px;
+}
+
+
+.window-header p {
+  margin: 0; 
 }
 
 .map-container {
