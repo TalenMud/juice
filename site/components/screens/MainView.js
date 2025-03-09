@@ -3717,7 +3717,7 @@ export default function MainView({
               !isJungle && (
                 <V1Challenge
                   userData={userData}
-                  handleThirdChallengeOpen={console.log("ok")}
+                  
                 />
               )}
 

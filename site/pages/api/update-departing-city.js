@@ -12,6 +12,7 @@ export default async function handler(req, res) {
 
     try {
         const { token, departingCity } = req.body;
+        console.log('Received token:', token);
 
         if (!token || !departingCity) {
             return res.status(400).json({

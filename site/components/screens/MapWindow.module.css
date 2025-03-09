@@ -72,3 +72,17 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.window-container.expanded {
+  height: auto; 
+}
+
+.flight-info {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  display: none;
+}
+
+.flight-info.expanded {
+  display: block  !important; 
+}
