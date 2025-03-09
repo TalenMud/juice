@@ -88,8 +88,8 @@ export default function MainView({
     y: 0,
   });
   const [juiceMapsPosition, setJuiceMapsPosition] = React.useState({
-    x: 450,
-    y: 450,
+    x: 0,
+    y: 0,
 });
   const [fruitBasketWindowPosition, setFruitBasketWindowPosition] =
     React.useState({ x: 0, y: 0 });
@@ -197,7 +197,7 @@ export default function MainView({
     wutIsPenguathon: 300,
     cardCreator: 470,
     wutIsBubbleathon: 300,
-    juiceMaps: 470,
+    juiceMaps: 530,
   };
   const BASE_Z_INDEX = 1;
 
@@ -741,7 +741,7 @@ export default function MainView({
       } else if (activeWindow === 'wutIsBubbleathon') {
         setWutIsBubbleathonWindowPosition(newPosition);
       } else if (activeWindow === 'juiceMaps') {
-        setJuiceMapsWindowPosition(newPosition);
+        setJuiceMapsPosition(newPosition);
       }
     }
   }; 
@@ -850,22 +850,6 @@ export default function MainView({
     }
   };
 
-  const handleJuiceMapsOpen = () => {
-    if (!openWindows.includes('juiceMaps')) {
-      setOpenWindows((prev) => [...prev, 'juiceMaps']);
-      document.getElementById('juiceMaps').currentTime = 0;
-      document.getElementById('juiceMaps').play();
-      setWindowOrder((prev) => [
-        ...prev.filter((w) => w !== 'juiceMaps'),
-        'juiceMaps',
-      ]);
-    } else {
-      setWindowOrder((prev) => [
-        ...prev.filter((w) => w !== 'juiceMaps'),
-        'juiceMaps',
-      ]);
-    }
-  };
 
   const handleSecondChallengeOpen = () => {
     if (!openWindows.includes('secondChallenge')) {
@@ -883,6 +867,7 @@ export default function MainView({
       ]);
     }
   };
+
 
   const handleBubbleathonClick = () => {
     if (!openWindows.includes('wutIsBubbleathon')) {
@@ -3445,6 +3430,19 @@ export default function MainView({
             />
           )}
 
+          {openWindows.includes('juiceMaps') && (
+            <JuiceMapsWindow
+              position={juiceMapsPosition}
+              isDragging={isDragging && activeWindow === 'juiceMaps'}
+              isActive={windowOrder[windowOrder.length - 1] === 'juiceMaps'}
+              handleMouseDown={handleMouseDown}
+              handleDismiss={handleDismiss}
+              handleWindowClick={handleWindowClick}
+              BASE_Z_INDEX={getWindowZIndex('juiceMaps')}
+              ACTIVE_Z_INDEX={getWindowZIndex('juiceMaps')}
+            />
+          )}
+
 
           <div
             style={{
@@ -3480,7 +3478,7 @@ export default function MainView({
                     data-file-id="Jungle"
                   />
                 )}
-                {isLoggedIn && (
+                
                   
                   
                   <FileIcon
@@ -3491,7 +3489,6 @@ export default function MainView({
                     delay={0.5}
                     data-file-id="JuiceMaps"
                   />
-                )}
                 {isJungle || (
                   <FileIcon
                     text="Achievements"
