@@ -45,7 +45,7 @@ export default function JuiceMapsWindow({
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    token: userData.token,
+                    token: localStorage.getItem('token'),
                     departingCity: departingCity
                 }),
             });
