@@ -42,6 +42,7 @@
   border: 2px solid black;
   margin: 0px;
   padding: 0px;
+  overflow: hidden;
 }
 
 .pixel-map {
@@ -50,6 +51,13 @@
   background-image: url("/pixel-art-world-map.png");
   background-size: cover;
   background-repeat: no-repeat;
+  transform-origin: top left; 
+  transition: transform 0.3s ease;
+}
+
+.pixel-map.zoomed-in {
+  transform: scale(2); 
+  cursor: grab; 
 }
 
 .add-flight-button {
