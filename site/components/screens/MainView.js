@@ -2,6 +2,7 @@ import React, { Suspense, useState } from 'react';
 import FileIcon from '../FileIcon';
 import WelcomeWindow from './WelcomeWindow';
 import AchievementsWindow from './AchievementsWindow';
+import JuiceMapsWindow from './JuiceMapsWindow';
 import WutIsJuiceWindow from './WutIsJuiceWindow';
 import RegisterWindow from './RegisterWindow';
 import VideoWindow from './VideoWindow';
@@ -86,6 +87,10 @@ export default function MainView({
     x: 0,
     y: 0,
   });
+  const [juiceMapsPosition, setJuiceMapsPosition] = React.useState({
+    x: 450,
+    y: 450,
+});
   const [fruitBasketWindowPosition, setFruitBasketWindowPosition] =
     React.useState({ x: 0, y: 0 });
   const [jungleShopWindowPosition, setJungleShopWindowPosition] =
@@ -192,6 +197,7 @@ export default function MainView({
     wutIsPenguathon: 300,
     cardCreator: 470,
     wutIsBubbleathon: 300,
+    juiceMaps: 470,
   };
   const BASE_Z_INDEX = 1;
 
@@ -544,6 +550,21 @@ export default function MainView({
           ]);
         }
       }
+      else if (fileId === 'JuiceMaps') {
+        if (!openWindows.includes('juiceMaps')) {
+            setOpenWindows((prev) => [...prev, 'juiceMaps']);
+            setWindowOrder((prev) => [
+                ...prev.filter((w) => w !== 'juiceMaps'),
+                'juiceMaps',
+            ]);
+            document.getElementById('windowOpenAudio').currentTime = 0;
+            document.getElementById('windowOpenAudio').play();
+        } else {
+            setWindowOrder((prev) => [
+                ...prev.filter((w) => w !== 'juiceMaps'),
+                'juiceMaps',
+            ]);
+          }}
     }
     setSelectedFile(fileId);
   };
@@ -634,6 +655,9 @@ export default function MainView({
       case 'wutIsBubbleathon':
         position = wutIsBubbleathonWindowPosition;
         break
+      case 'juiceMaps':
+        position = juiceMapsPosition;
+        break
       default:
         console.log('Unknown window name:', windowName);
         position = { x: 0, y: 0 };
@@ -716,9 +740,11 @@ export default function MainView({
         setCardCreatorPosition(newPosition);
       } else if (activeWindow === 'wutIsBubbleathon') {
         setWutIsBubbleathonWindowPosition(newPosition);
+      } else if (activeWindow === 'juiceMaps') {
+        setJuiceMapsWindowPosition(newPosition);
       }
     }
-  }; // Add closing brace here
+  }; 
 
   const handleMouseUp = () => {
     console.log(
@@ -823,6 +849,24 @@ export default function MainView({
       ]);
     }
   };
+
+  const handleJuiceMapsOpen = () => {
+    if (!openWindows.includes('juiceMaps')) {
+      setOpenWindows((prev) => [...prev, 'juiceMaps']);
+      document.getElementById('juiceMaps').currentTime = 0;
+      document.getElementById('juiceMaps').play();
+      setWindowOrder((prev) => [
+        ...prev.filter((w) => w !== 'juiceMaps'),
+        'juiceMaps',
+      ]);
+    } else {
+      setWindowOrder((prev) => [
+        ...prev.filter((w) => w !== 'juiceMaps'),
+        'juiceMaps',
+      ]);
+    }
+  };
+
   const handleSecondChallengeOpen = () => {
     if (!openWindows.includes('secondChallenge')) {
       setOpenWindows((prev) => [...prev, 'secondChallenge']);
@@ -3425,6 +3469,8 @@ export default function MainView({
             >
               <div>
                 {isLoggedIn && (
+                  
+                  
                   <FileIcon
                     text="Jungle"
                     icon="./jungle/jungleicon.png"
@@ -3432,6 +3478,18 @@ export default function MainView({
                     onClick={handleFileClick('Jungle')}
                     delay={0.5}
                     data-file-id="Jungle"
+                  />
+                )}
+                {isLoggedIn && (
+                  
+                  
+                  <FileIcon
+                    text="Juice Maps"
+                    icon="./gallery.png" 
+                    onClick={handleFileClick('JuiceMaps')}
+                    isSelected={selectedFile === 'JuiceMaps'}
+                    delay={0.5}
+                    data-file-id="JuiceMaps"
                   />
                 )}
                 {isJungle || (
