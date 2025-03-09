@@ -33,6 +33,7 @@ import CardCreatorWindow from './CardCreatorWindow';
 import RabbitMessage from '../RabbitMessage';
 import V1Challenge from './V1Challenge';
 import WutIsBubbleathonWindow from './WutIsBubbleathonWindow';
+import WutIsJuiceMapsWindow from './WutIsJuiceMapsWindow';
 
 export default function MainView({
   isLoggedIn,
@@ -62,6 +63,7 @@ export default function MainView({
     x: 100,
     y: 100,
   });
+  
   const [wutIsJunglePosition, setwutIsJunglePosition] = React.useState({
     x: 100,
     y: 100,
@@ -88,6 +90,10 @@ export default function MainView({
     y: 0,
   });
   const [juiceMapsPosition, setJuiceMapsPosition] = React.useState({
+    x: 0,
+    y: 0,
+  });
+  const [WutIsJuiceMapsPosition, setWutIsJuiceMapsPosition] = React.useState({
     x: 0,
     y: 0,
 });
@@ -198,6 +204,7 @@ export default function MainView({
     cardCreator: 470,
     wutIsBubbleathon: 300,
     juiceMaps: 530,
+    WutIsJuiceMaps: 650,
   };
   const BASE_Z_INDEX = 1;
 
@@ -564,7 +571,24 @@ export default function MainView({
                 ...prev.filter((w) => w !== 'juiceMaps'),
                 'juiceMaps',
             ]);
-          }}
+          }
+      }
+      else if (fileId === 'WutIsJuiceMaps') {
+        if (!openWindows.includes('WutIsJuiceMaps')) {
+            setOpenWindows((prev) => [...prev, 'WutIsJuiceMaps']);
+            setWindowOrder((prev) => [
+                ...prev.filter((w) => w !== 'WutIsJuiceMaps'),
+                'WutIsJuiceMaps',
+            ]);
+            document.getElementById('windowOpenAudio').currentTime = 0;
+            document.getElementById('windowOpenAudio').play();
+        } else {
+            setWindowOrder((prev) => [
+               ...prev.filter((w) => w !== 'WutIsJuiceMaps'),
+                'WutIsJuiceMaps',
+            ]);
+          }
+      }
     }
     setSelectedFile(fileId);
   };
@@ -658,6 +682,9 @@ export default function MainView({
       case 'juiceMaps':
         position = juiceMapsPosition;
         break
+      case 'WutIsJuiceMaps':
+        position = WutIsJuiceMapsPosition;
+        break
       default:
         console.log('Unknown window name:', windowName);
         position = { x: 0, y: 0 };
@@ -742,6 +769,8 @@ export default function MainView({
         setWutIsBubbleathonWindowPosition(newPosition);
       } else if (activeWindow === 'juiceMaps') {
         setJuiceMapsPosition(newPosition);
+      }else if (activeWindow === 'WutIsJuiceMaps') {
+        setWutIsJuiceMapsPosition(newPosition);
       }
     }
   }; 
@@ -3443,6 +3472,19 @@ export default function MainView({
             />
           )}
 
+          {openWindows.includes('WutIsJuiceMaps') && (
+            <WutIsJuiceMapsWindow
+              position={WutIsJuiceMapsPosition}
+              isDragging={isDragging && activeWindow === 'WutIsJuiceMaps'}
+              isActive={windowOrder[windowOrder.length - 1] === 'WutIsJuiceMaps'}
+              handleMouseDown={handleMouseDown}
+              handleDismiss={handleDismiss}
+              handleWindowClick={handleWindowClick}
+              BASE_Z_INDEX={getWindowZIndex('WutIsJuiceMaps')}
+              ACTIVE_Z_INDEX={getWindowZIndex('WutIsJuiceMaps')}
+            />
+          )}
+
 
           <div
             style={{
@@ -3604,6 +3646,14 @@ export default function MainView({
                   onClick={handleFileClick('tamagotchiNotes')}
                   delay={0}
                   data-file-id="tamagotchiNotes"
+                />
+                <FileIcon
+                text="WutIsJuiceMaps.txt"
+                icon="./texticon.png"
+                isSelected={selectedFile === 'WutIsJuiceMaps'}
+                onClick={handleFileClick('WutIsJuiceMaps')}
+                delay={0}
+                data-file-id="WutIsJuiceMaps"
                 />
               </div>
               <div>
